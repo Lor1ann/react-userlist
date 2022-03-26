@@ -1,0 +1,16 @@
+.user {
+  display: grid;
+  grid-template-columns: repeat(5, 300px);
+  border-top: solid 1px #f7f7f7;
+  padding: 20px 0px;
+  color: #acacac;
+  .username {
+    color: #0cb4f1;
+    font-weight: 700;
+  }
+  .delete {
+    img {
+      cursor: pointer;
+    }
+  }
+}

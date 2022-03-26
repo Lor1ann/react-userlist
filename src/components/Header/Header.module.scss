@@ -1,0 +1,33 @@
+.header {
+  padding: 16px 40px 12px 16px;
+  background-color: #fff;
+  box-shadow: 0px 18px 15px rgba(148, 148, 148, 0.15);
+  border-radius: 7px;
+  margin-bottom: 100px;
+  .headerInput {
+    margin-bottom: 24px;
+    input {
+      font-size: 16px;
+      font-weight: 500;
+      color: #5d5f61;
+      width: 100%;
+      outline: none;
+      background-color: #eceff0;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    input::placeholder {
+      color: #9eaab4;
+    }
+  }
+  .headerClearInput {
+    cursor: pointer;
+    display: flex;
+    color: #4f4f4f;
+    font-weight: 500;
+    img {
+      margin-right: 5px;
+    }
+  }
+}

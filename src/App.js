@@ -1,23 +1,90 @@
-import logo from './logo.svg';
-import './App.css';
+import styles from "./App.module.scss";
+import Header from "./components/Header";
+import User from "./components/User";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "./redux/action/users";
 
 function App() {
+  const users = useSelector((state) => state.users.users);
+  const users2 = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  const searchVal = useSelector((state) => state.search.searchValue);
+  const [sort, setSort] = React.useState("date");
+
+  console.log(users2);
+
+  React.useEffect(() => {
+    dispatch(
+      getUsers(
+        `https://6238dcc300ed1dbc5ab835a7.mockapi.io/users?sortBy=${sort}&order=desc`
+      )
+    );
+  }, [dispatch, sort]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={styles.app}>
+      <div className={styles.container}>
+        <div className={styles.listTitle}>
+          <h1>Список пользователей</h1>
+        </div>
+        <Header />
+        <div className={styles.sort}>
+          <p>
+            Cортировка:{" "}
+            <span
+              onClick={() => {
+                setSort("date");
+              }}
+              className={styles.sortDate}
+              style={sort === "date" ? { color: "#333333" } : null}
+            >
+              Дата регистрации
+            </span>
+            <span
+              className={styles.sortRating}
+              onClick={() => {
+                setSort("rating");
+              }}
+              style={sort === "rating" ? { color: "#333333" } : null}
+            >
+              Рейтинг
+            </span>
+          </p>
+        </div>
+        <div className={styles.list}>
+          <div className={styles.listTableTitle}>
+            <div>Имя пользователя</div>
+            <div>E-mail</div>
+            <div>Дата регестрации</div>
+            <div>Рейтинг</div>
+          </div>
+          {users.length ? (
+            users
+              .filter(
+                (obj) =>
+                  obj.username
+                    .toLowerCase()
+                    .includes(searchVal.toLowerCase()) ||
+                  obj.email.toLowerCase().includes(searchVal.toLowerCase())
+              )
+              .map((obj) => {
+                return (
+                  <User
+                    id={obj.id}
+                    key={obj.id}
+                    username={obj.username}
+                    date={new Date(obj.date).toLocaleDateString()}
+                    rating={obj.rating}
+                    email={obj.email}
+                  />
+                );
+              })
+          ) : (
+            <div>Здесь пусто</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
