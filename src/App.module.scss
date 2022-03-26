@@ -4,6 +4,26 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    .pagination {
+      margin: 0 auto;
+      button {
+        cursor: pointer;
+        height: 50px;
+        width: 100px;
+        border-radius: 20px;
+        background-color: #fff;
+        box-shadow: 0px 18px 15px rgba(148, 148, 148, 0.15);
+        border: none;
+      }
+
+      button:hover {
+        transform: translateY(-5px) scale(1.1);
+      }
+
+      .backpage {
+        margin-right: 20px;
+      }
+    }
     .sort {
       margin-bottom: 15px;
       color: #9eaab4;

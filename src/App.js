@@ -11,16 +11,17 @@ function App() {
   const dispatch = useDispatch();
   const searchVal = useSelector((state) => state.search.searchValue);
   const [sort, setSort] = React.useState("date");
+  const [page, setPage] = React.useState(1);
 
   console.log(users2);
 
   React.useEffect(() => {
     dispatch(
       getUsers(
-        `https://6238dcc300ed1dbc5ab835a7.mockapi.io/users?sortBy=${sort}&order=desc`
+        `https://6238dcc300ed1dbc5ab835a7.mockapi.io/users?sortBy=${sort}&order=desc&p=${page}&l=7`
       )
     );
-  }, [dispatch, sort]);
+  }, [dispatch, sort, page]);
 
   return (
     <div className={styles.app}>
@@ -83,6 +84,24 @@ function App() {
           ) : (
             <div>Здесь пусто</div>
           )}
+        </div>
+        <div className={styles.pagination}>
+          <button
+            className={styles.backpage}
+            onClick={() => {
+              setPage((prev) => prev - 1);
+            }}
+          >
+            Назад
+          </button>
+          <button
+            className={styles.nextpage}
+            onClick={() => {
+              setPage((prev) => prev + 1);
+            }}
+          >
+            Далее
+          </button>
         </div>
       </div>
     </div>
