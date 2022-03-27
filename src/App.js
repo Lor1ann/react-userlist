@@ -4,18 +4,25 @@ import User from "./components/User";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "./redux/action/users";
+import axios from "axios";
 
 function App() {
   const users = useSelector((state) => state.users.users);
-  const users2 = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const searchVal = useSelector((state) => state.search.searchValue);
   const [sort, setSort] = React.useState("date");
   const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(null);
 
-  console.log(users2);
+  console.log(totalPages);
 
   React.useEffect(() => {
+    axios
+      .get(`https://6238dcc300ed1dbc5ab835a7.mockapi.io/users`)
+      .then((res) => {
+        setTotalPages(Math.ceil(res.data.length / 7));
+      });
+
     dispatch(
       getUsers(
         `https://6238dcc300ed1dbc5ab835a7.mockapi.io/users?sortBy=${sort}&order=desc&p=${page}&l=7`
@@ -72,6 +79,8 @@ function App() {
               .map((obj) => {
                 return (
                   <User
+                    page={page}
+                    sort={sort}
                     id={obj.id}
                     key={obj.id}
                     username={obj.username}
@@ -87,6 +96,7 @@ function App() {
         </div>
         <div className={styles.pagination}>
           <button
+            disabled={!(page > 1)}
             className={styles.backpage}
             onClick={() => {
               setPage((prev) => prev - 1);
@@ -95,6 +105,7 @@ function App() {
             Назад
           </button>
           <button
+            disabled={page >= totalPages}
             className={styles.nextpage}
             onClick={() => {
               setPage((prev) => prev + 1);
