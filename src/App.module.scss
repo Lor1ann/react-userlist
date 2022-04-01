@@ -4,6 +4,7 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+
     .pagination {
       margin: 0 auto;
       button {
@@ -49,6 +50,12 @@
       color: #333333;
     }
     .list {
+      .withoutResults {
+        color: #333333;
+        text-align: center;
+        font-size: 48px;
+        padding: 30px;
+      }
       box-shadow: 0px 18px 15px rgba(148, 148, 148, 0.15);
       margin-bottom: 80px;
       .listTableTitle {

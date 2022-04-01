@@ -5,6 +5,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "./redux/action/users";
 import axios from "axios";
+import Modal from "./components/Modal";
 
 function App() {
   const users = useSelector((state) => state.users.users);
@@ -13,8 +14,7 @@ function App() {
   const [sort, setSort] = React.useState("date");
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(null);
-
-  console.log(totalPages);
+  const [modal, setModal] = React.useState({ isOpen: false, id: null });
 
   React.useEffect(() => {
     axios
@@ -32,6 +32,15 @@ function App() {
 
   return (
     <div className={styles.app}>
+      {modal.isOpen && (
+        <Modal
+          id={modal.id}
+          setModal={setModal}
+          sort={sort}
+          page={page}
+          setPage={setPage}
+        />
+      )}
       <div className={styles.container}>
         <div className={styles.listTitle}>
           <h1>Список пользователей</h1>
@@ -79,6 +88,7 @@ function App() {
               .map((obj) => {
                 return (
                   <User
+                    setModalDate={setModal}
                     page={page}
                     sort={sort}
                     id={obj.id}
@@ -91,7 +101,7 @@ function App() {
                 );
               })
           ) : (
-            <div>Здесь пусто</div>
+            <div className={styles.withoutResults}>Ничего не найдено!</div>
           )}
         </div>
         <div className={styles.pagination}>
